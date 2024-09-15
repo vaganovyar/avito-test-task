@@ -1,0 +1,128 @@
+[tool.poetry]
+name = "tenders"
+version = "0.1.0"
+description = ""
+authors = ["vaganovyar <vaganovyar@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11.0"
+aiohttp = "^3.8.1"
+alembic = "^1.8.1"
+asyncpg = "^0.27.0"
+bcrypt = "^4.0.1"
+beautifulsoup4 = "^4.11.1"
+fastapi = "^0.114"
+fastapi-pagination = "^0.12.4"
+passlib = "^1.7.4"
+psycopg2-binary = "^2.9.3"
+pydantic = {extras=["dotenv", "email"], version="^2.9"}
+pydantic-settings = "^2.5"
+python-jose = "^3.3.0"
+python-multipart = "^0.0.6"
+SQLAlchemy = "^2.0.16"
+SQLAlchemy-Utils = "^0.41.1"
+starlette = "^0.37"
+url-normalize = "^1.4.3"
+uvicorn = "^0.22.0"
+
+[tool.poetry.dev-dependencies]
+autoflake = "^1.4"
+black = "^22.6.0"
+ConfigArgParse = "^1.5.3"
+httpx = "^0.23.0"
+isort = "^5.10.1"
+mock = "^4.0.3"
+mypy = "^0.971"
+pylint = "^3.2.0"
+pytest = "^7.1.2"
+pytest-aiohttp = "^1.0.4"
+pytest-cov = "^3.0.0"
+sqlalchemy2-stubs = "^0.0.2-alpha.24"
+watchfiles = "^0.16.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest]
+python_files = "test_*.py"
+python_classes = ["*Test", "Test*"]
+python_functions = "test_*"
+testpaths = "tests/"
+
+[tool.coverage.report]
+exclude_lines = [
+    "# pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "def __unicode__",
+]
+show_missing = true
+skip_empty = true
+omit = [
+  "*/__init__.py",
+  "tenders/db/migrator/env.py",
+]
+
+[tool.coverage.html]
+directory = "pytest-cov-report"
+
+[tool.coverage.run]
+branch = true
+concurrency = ['thread', 'greenlet']
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.pylint.master]
+extension-pkg-allow-list = ["pydantic"]
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.basic]
+good-names = ["db"]
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [
+  "C0114",  # missing-module-docstring
+  "C0116",  # missing-function-docstring
+  "R0903",  # too-few-public-methods (for sqlalchemy tables and pydantic classes)
+  "C0115",  # missing-class-docstring (for api routes)
+]
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+ignore_missing_imports = false
+no_implicit_optional = true
+plugins = ["sqlalchemy.ext.mypy.plugin"]
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+[tool.isort]
+known_local_folder = "tenders"
+lines_after_imports = 2
+multi_line_output = 3
+line_length = 120
+include_trailing_comma = true
